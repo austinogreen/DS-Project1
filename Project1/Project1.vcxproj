@@ -125,14 +125,16 @@
   <ItemGroup>
     <ClCompile Include="Driller.cpp" />
     <ClCompile Include="DrillingRecord.cpp" />
-    <ClCompile Include="DrillingRecordArray.cpp" />
     <ClCompile Include="Exceptions.cpp" />
-    <ClCompile Include="Exeptions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Comparator.h" />
     <ClInclude Include="DrillingRecord.h" />
-    <ClInclude Include="DrillingRecordArray.h" />
+    <ClInclude Include="DrillingRecordComparator.h" />
     <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="ResizableArray.h" />
+    <ClInclude Include="Search.h" />
+    <ClInclude Include="Sorter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
