@@ -23,6 +23,63 @@
 		Print internal tallies
 
 */
+ResizableArray<DrillingRecord>* drillingArray = NULL;
+
+// Only sorts unsorted part of array
+void sortDrillingRecords(int prevSize) {
+	for (int i = prevSize; i < drillingArray->getSize(); i++) {
+
+		DrillingRecord dR = drillingArray->get(i);
+		std::string time = dR.getString(1);
+
+		int j;
+		// Searches while it is smaller than previous size and less than time
+		// if previously not sorted, new elements are sorted in order
+		for (j = 0; ((j < prevSize) && (time < drillingArray->get(j).getString(1))); j++) {	}
+
+		// Decrements so that adds at the right place
+		drillingArray->addAt(dR, j);
+	}
+}
+
+void mergeDrillingRecords(ResizableArray<DrillingRecord>* newArray) {
+	//Array dne therfore merged array is only array
+	if (drillingArray == NULL) {
+		drillingArray = newArray;
+		sortDrillingRecords(0);
+	}
+	else {
+		// Size of the array
+		int size = drillingArray->getSize();
+		for (int i = 0; i < size; i++) {
+
+			bool isFound = false;
+			DrillingRecord dR = newArray->get(i);
+			std::string time = dR.getString(1);
+
+			int j = 0;
+
+			// Change to binary search
+			while ((!isFound) && (j < drillingArray->getSize())) {
+				// Checks to see if the times are the same
+				if ((time.compare(drillingArray->get(j).getString(1))) == 0) {
+					drillingArray->replaceAt(dR, j);
+					isFound = true;
+				}
+				// Increments j to search next item
+				else {
+					j++;
+				}
+			}
+			if (!isFound) {
+				drillingArray->add(dR);
+			}
+		}
+
+
+		sortDrillingRecords(size);
+	}
+}
 
 int main() {
 
@@ -45,7 +102,6 @@ int main() {
 			// If file exists
 
 			// The drilling array
-			ResizableArray<DrillingRecord>* drillingArray = new ResizableArray<DrillingRecord>();
 			DrillingRecord* drillingRecord = new DrillingRecord();
 
 			// Temperary string variable
