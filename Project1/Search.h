@@ -11,21 +11,34 @@
 // if not found, returns -(location to insert + 1)
 template <typename T>
 long long binarySearch(const T& item, const ResizableArray<T>& array, const Comparator<T>& comparator) {
-	long long middle = array.getSize() / 2;
+	
+	// Parameters of binary search
+	long long left = 0;
+	long long right = array.getSize() - 1;
 
-	long long location = comparator.compare(item, array.get(middle);
+	// searches while left and right don't overlap
+	while (left <= right) {
 
-	if (location == 0) {
-		return middle + 1;
+		long long middle = array.getSize() / 2;
+		long long compare = comparator.compare(item, array.get(middle));
+
+		// item is less than the element so search in left half
+		if (compare < 0) {
+			right = middle - 1;
+		}
+
+		// item is greater than the element so search in right half
+		else if (compare > 0) {
+			left = middle + 1;
+		}
+
+		// item found
+		else {
+			return middle;
+		}
 	}
-
-	else if (location > 1)
-
-		return binarySearch(array, value, left, middle - 1);
-
-	else
-
-		return binarySearch(array, value, middle + 1, right);
+	// item not found, exit array
+	return -(middle + 1);
 }
 
 #endif

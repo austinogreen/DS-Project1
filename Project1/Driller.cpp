@@ -7,6 +7,8 @@
 #include "DrillingRecord.h"
 #include "ResizableArray.h"
 #include "Exceptions.h"
+#include "DrillingRecordComparator.h"
+#include "Search.h"
 
 /*
 	TODO
@@ -61,6 +63,7 @@ void mergeDrillingRecords(ResizableArray<DrillingRecord>* newArray) {
 			bool isFound = false;
 			DrillingRecord dR = newArray->get(i);
 			std::string time = dR.getString(1);
+			DrillingRecordComparator comparator = new DrillingRecordComparator(1);
 
 			int j = 0;
 
