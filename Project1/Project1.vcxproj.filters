@@ -24,6 +24,9 @@
     <ClCompile Include="Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DrillingRecordComparator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exceptions.h">
@@ -38,13 +41,13 @@
     <ClInclude Include="Comparator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DrillingRecordComparator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Search.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sorter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrillingRecordComparator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

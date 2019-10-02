@@ -207,8 +207,25 @@ T ResizableArray<T> :: get(unsigned long index) const {
 }
 
 template<typename T>
+T ResizableArray<T> :: operator[](unsigned long index) const {
+	// Checks if index is valid
+	if (index >= size) {
+		// return
+		throw ExceptionIndexOutOfRange();
+	}
+
+	// Returns the item
+	return data[index];
+}
+
+template<typename T>
 unsigned long ResizableArray<T> :: getSize() const {
 	// Returns the size
 	return size;
 } 
+template<typename T>
+unsigned long ResizableArray<T> ::getCapacity() const {
+	// Returns the capacity
+	return capacity;
+}
 #endif
