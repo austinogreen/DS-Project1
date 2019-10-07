@@ -16,7 +16,6 @@ public:
 };
 
 
-// TODO: Make more efficient
 template<typename T>
 void Sorter<T> :: sort(ResizableArray<T>& array, const Comparator<T>& comparator) {
 	T temp;
