@@ -29,7 +29,7 @@ public:
 	// the following member functions must throw new ExceptionIndexOutOfRange if index is too large
 	double getNum(unsigned int index) const;                   // returns (copy of) num at index in num array
 	std::string getString(unsigned int index) const;           // returns (copy of) string at index in string array
-	void setNum(unsigned int num, unsigned int index);         // sets nums[index] to num, doesn't change counter
+	void setNum(double num, unsigned int index);         // sets nums[index] to num, doesn't change counter
 	void setString(std::string string, unsigned int index);    // sets strings[index] to string, doesn't change counter
 };
 

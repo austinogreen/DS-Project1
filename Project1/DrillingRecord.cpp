@@ -15,6 +15,17 @@ std::ostream& operator<<(std::ostream& os, const DrillingRecord& record) {
 	return os;
 }
 
+DrillingRecord::DrillingRecord() {
+	// Initializes strings to empty
+	strings[0] = "";
+	strings[1] = "";
+
+	// Initiialzes nums to 0.0
+	for (int i = 0; i < MAX_NUMS; i++) {
+		nums[i] = 0.0;
+	}
+}
+
 void DrillingRecord::addNum(double num) {
 	nums[numCtr] = num;
 	if (numCtr == 15) {
@@ -44,4 +55,16 @@ double DrillingRecord::getNum(unsigned int index) const {
 
 std::string DrillingRecord::getString(unsigned int index) const {
 	return strings[index];
+}
+
+void DrillingRecord::setNum (double num, unsigned int index) {
+	nums[index] = num;
+
+	return;
+}
+
+void DrillingRecord::setString(std::string string, unsigned int index) {
+	strings[index] = string;
+
+	return;
 }
