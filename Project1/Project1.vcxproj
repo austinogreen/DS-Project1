@@ -126,7 +126,6 @@
     <ClCompile Include="Driller.cpp" />
     <ClCompile Include="DrillingRecord.cpp" />
     <ClCompile Include="DrillingRecordComparator.cpp" />
-    <ClCompile Include="Exceptions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Comparator.h" />

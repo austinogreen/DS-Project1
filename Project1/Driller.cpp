@@ -29,23 +29,30 @@ ResizableArray<DrillingRecord>* drillingArray = NULL;
 
 // Only sorts unsorted part of array
 void sortDrillingRecords(int prevSize) {
+	
+	// Sorts by time
+	DrillingRecordComparator* comparitor = new DrillingRecordComparator(1);
+
 	// Goes through only previously unsorted part of the array to the end
 	// This is where new data lies
 	for (int i = prevSize; i < drillingArray->getSize(); i++) {
 
 		// Places the new element into dR and stores time
 		DrillingRecord dR = drillingArray->get(i);
-		std::string time = dR.getString(1);
 
-		int j;
-		// Searches while it is smaller than previous size and less than time
+
+		// Removes from previous place
+		drillingArray->removeAt(i);
+
+		unsigned int j;
+		// Searches older part of array for an element that is older 
 		// if previously not sorted, new elements are sorted in order
-		for (j = 0; ((j < prevSize) && (time.compare(drillingArray->get(j).getString(1))) < 1); j++) {	}
+		while ((j < prevSize) && (comparitor->compare(drillingArray->get(j), dR) < 0)) {
+			j++;
+		}
 
 		// Places new string in its place
 		drillingArray->addAt(dR, j);
-		// Removes from previous place
-		drillingArray->removeAt(i);
 	}
 }
 
@@ -62,29 +69,28 @@ void mergeDrillingRecords(ResizableArray<DrillingRecord>* newArray) {
 
 			bool isFound = false;
 			DrillingRecord dR = newArray->get(i);
-			std::string time = dR.getString(1);
-			DrillingRecordComparator comparator = new DrillingRecordComparator(1);
+			DrillingRecordComparator* comparator = new DrillingRecordComparator(1);
 
 			int j = 0;
 
 			// Change to binary search
 			while ((!isFound) && (j < drillingArray->getSize())) {
 				// Checks to see if the times are the same
-				if ((time.compare(drillingArray->get(j).getString(1))) == 0) {
+				if ((comparator->compare(dR, drillingArray->get(j))) == 0) {
 					drillingArray->replaceAt(dR, j);
 					isFound = true;
 				}
-				// Increments j to search next item
-				else {
-					j++;
-				}
+				
+				j++;
 			}
+
+			// Adds to the end if not found
 			if (!isFound) {
 				drillingArray->add(dR);
 			}
 		}
 
-
+		// Sorts older part of array
 		sortDrillingRecords(size);
 	}
 }
