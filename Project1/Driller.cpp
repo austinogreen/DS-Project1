@@ -31,7 +31,7 @@ void mergeDrillingRecords(ResizableArray<DrillingRecord>* newArray) {
 	}
 	else {
 		// Size of the array
-		long unsigned int size = drillingArray->getSize();
+		long unsigned int size = newArray->getSize();
 		for (long unsigned int i = 0; i < size; i++) {
 
 			bool isFound = false;
