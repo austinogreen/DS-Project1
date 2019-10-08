@@ -51,21 +51,21 @@ void DrillingRecord::addString(std::string string) {
 }
 
 double DrillingRecord::getNum(unsigned int index) const {
-	if ((index < 0) || (index > 15)) {
+	if (index > 15) {
 		throw ExceptionIndexOutOfRange();
 	}
 	return nums[index];
 }
 
 std::string DrillingRecord::getString(unsigned int index) const {
-	if ((index < 0) || (index > 1)) {
+	if (index > 1) {
 		throw ExceptionIndexOutOfRange();
 	}
 	return strings[index];
 }
 
 void DrillingRecord::setNum (double num, unsigned int index) {
-	if ((index < 0) || (index > 15)) {
+	if (index > 15) {
 		throw ExceptionIndexOutOfRange();
 	}
 	nums[index] = num;
@@ -74,7 +74,7 @@ void DrillingRecord::setNum (double num, unsigned int index) {
 }
 
 void DrillingRecord::setString(std::string string, unsigned int index) {
-	if ((index < 0) || (index > 1)) {
+	if (index > 1) {
 		throw ExceptionIndexOutOfRange();
 	}
 	strings[index] = string;
