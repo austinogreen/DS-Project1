@@ -36,6 +36,11 @@ void ResizableArray<T> :: doubleCapacity(void) {
 	// Creats new type T array
 	T* newT = new T[capacity * 2];
 
+	// Checks if memeory is available	
+	if (newT == NULL) {
+		throw ExceptionMemoryNotAvailable();
+	}
+
 	// Copies contents of old array into the new one
 	for (unsigned int i = 0; i < capacity; i++) {
 		try {
