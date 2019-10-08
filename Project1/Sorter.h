@@ -19,7 +19,7 @@ public:
 template<typename T>
 void Sorter<T> :: sort(ResizableArray<T>& array, const Comparator<T>& comparator) {
 	T temp;
-	int size = array->getSize();
+	int size = array.getSize();
 	for (int i = 0; i < size; i++) {
 
 		for (int j = i; j < size; j++) {

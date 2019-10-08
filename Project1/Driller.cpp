@@ -30,7 +30,7 @@
 ResizableArray<DrillingRecord>* drillingArray = NULL;
 
 // Only sorts unsorted part of array
-void sortDrillingRecords(int prevSize) {
+void sortDrillingRecords(long unsigned int prevSize) {
 	
 	// Sorts by time
 	DrillingRecordComparator* comparitor = new DrillingRecordComparator(1);
@@ -242,7 +242,6 @@ int main() {
 	// Output choice
 	char choice;
 	// File out
-	std::string fileName;
 	std::ofstream outputFile;
 
 	std::cout << "Enter (o)utput, (s)ort, (f)ind, or (q)uit: " << std::endl;
@@ -336,8 +335,7 @@ int main() {
 
 		case 'f':
 			// find stuff
-			// columnto search
-			int column;
+			// column to search
 
 			// Get column to search
 			std::cout << "Enter search field (0-17):" << std::endl;
