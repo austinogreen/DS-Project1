@@ -17,10 +17,10 @@ int DrillingRecordComparator :: compare(const DrillingRecord& item1, const Drill
 	// compares doubles
 	// column - 2 to get correct number column
 	else {
-		if (item1.getNum(column - 2) < (item2.getNum(column - 2)) {
+		if ((item1.getNum(column - 2)) < (item2.getNum(column - 2))) {
 			return -1;
 		}
-		else if (item1.getNum(column - 2) > (item2.getNum(column - 2)) {
+		else if ((item1.getNum(column - 2)) > (item2.getNum(column - 2))) {
 			return 1;
 		}
 		else {
