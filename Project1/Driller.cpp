@@ -39,7 +39,7 @@ void sortDrillingRecords(int prevSize) {
 
 	// Goes through only previously unsorted part of the array to the end
 	// This is where new data lies
-	for (int i = prevSize; i < size; i++) {
+	for (long unsigned int i = prevSize; i < size; i++) {
 
 		// Places the new element into dR and stores time
 		DrillingRecord dR = drillingArray->get(i);
@@ -48,7 +48,7 @@ void sortDrillingRecords(int prevSize) {
 		// Removes from previous place
 		drillingArray->removeAt(i);
 
-		unsigned int j;
+		long unsigned int j;
 		// Searches older part of array for an element that is older 
 		// if previously not sorted, new elements are sorted in order
 		// cannot use binary search because array is not sorted
