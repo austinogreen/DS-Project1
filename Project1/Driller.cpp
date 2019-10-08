@@ -35,7 +35,7 @@ void sortDrillingRecords(int prevSize) {
 	// Sorts by time
 	DrillingRecordComparator* comparitor = new DrillingRecordComparator(1);
 
-	int size = drillingArray->getSize();
+	long unsigned int size = drillingArray->getSize();
 
 	// Goes through only previously unsorted part of the array to the end
 	// This is where new data lies
@@ -69,14 +69,14 @@ void mergeDrillingRecords(ResizableArray<DrillingRecord>* newArray) {
 	}
 	else {
 		// Size of the array
-		int size = drillingArray->getSize();
+		long unsigned int size = drillingArray->getSize();
 		for (int i = 0; i < size; i++) {
 
 			bool isFound = false;
 			DrillingRecord dR = newArray->get(i);
 			DrillingRecordComparator* comparator = new DrillingRecordComparator(1);
 
-			int j = 0;
+			long unsigned int j = 0;
 
 			// Change to binary search
 			while ((!isFound) && (j < drillingArray->getSize())) {
@@ -273,7 +273,7 @@ int main() {
 				}
 
 				try {
-					for (int i = 0; i < drillingArray->getSize(); i++) {
+					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
 						outputFile << drillingArray->get(i) << std::endl;
 					}
 
@@ -293,7 +293,7 @@ int main() {
 			else {
 				// Prints data (loop)
 				try {
-					for (int i = 0; i < drillingArray->getSize(); i++) {
+					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
 						outputFile << drillingArray->get(i) << std::endl;
 					}
 
@@ -359,7 +359,7 @@ int main() {
 					std::cin >> value;
 
 					// Searches through the array to get count
-					for (int i = 0; i < drillingArray->getSize(); i++) {
+					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
 						if (value == drillingArray->get(i).getNum(column - 2)) {
 							count++;
 						}
@@ -374,7 +374,7 @@ int main() {
 					std::cin >> value;
 
 					// Searches through the array to get count
-					for (int i = 0; i < drillingArray->getSize(); i++) {
+					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
 						if (value.compare(drillingArray->get(i).getString(column)) == 0) {
 							count++;
 						}
