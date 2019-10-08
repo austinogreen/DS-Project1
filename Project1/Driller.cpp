@@ -12,60 +12,22 @@
 #include "Sorter.h"
 #include "Comparator.h"
 
-/*
-	TODO
-		Determine which variables need to be declared before loop
-		Make some of this separate functions
-		time check
-		date of first line matches original file
-		retain most recently read in time data from the file
-			Read files separtely and combine at the end
-			linear search within file
-			binary search when combining because sorted
-		Sort after combining
-		Make file read in separate
-		Print internal tallies
+using namespace std;
 
-*/
 ResizableArray<DrillingRecord>* drillingArray = NULL;
 
-// Only sorts unsorted part of array
-void sortDrillingRecords(long unsigned int prevSize) {
-	
-	// Sorts by time
-	DrillingRecordComparator* comparitor = new DrillingRecordComparator(1);
-
-	long unsigned int size = drillingArray->getSize();
-
-	// Goes through only previously unsorted part of the array to the end
-	// This is where new data lies
-	for (long unsigned int i = prevSize; i < size; i++) {
-
-		// Places the new element into dR and stores time
-		DrillingRecord dR = drillingArray->get(i);
-
-
-		// Removes from previous place
-		drillingArray->removeAt(i);
-
-		long unsigned int j;
-		// Searches older part of array for an element that is older 
-		// if previously not sorted, new elements are sorted in order
-		// cannot use binary search because array is not sorted
-		while ((j < prevSize) && (comparitor->compare(drillingArray->get(j), dR) < 0)) {
-			j++;
-		}
-
-		// Places new string in its place
-		drillingArray->addAt(dR, j);
-	}
-}
+// string to dump bad data
+string garbage;
 
 void mergeDrillingRecords(ResizableArray<DrillingRecord>* newArray) {
 	//Array dne therfore merged array is only array
 	if (drillingArray == NULL) {
-		drillingArray = newArray;
-		sortDrillingRecords(0);
+		drillingArray = new ResizableArray<DrillingRecord>();
+
+		unsigned long size = newArray->getSize();
+		for (unsigned int i = 0; i < size; i++) {
+			drillingArray->add(newArray->get(i));
+		}
 	}
 	else {
 		// Size of the array
@@ -94,27 +56,29 @@ void mergeDrillingRecords(ResizableArray<DrillingRecord>* newArray) {
 				drillingArray->add(dR);
 			}
 		}
-
-		// Sorts older part of array
-		sortDrillingRecords(size);
 	}
+
+	// Sorts older part of array
+	DrillingRecordComparator* comparitor = new DrillingRecordComparator(1);
+
+	Sorter<DrillingRecord>::sort(*drillingArray, *comparitor);
 }
 
 int main() {
 
 	// File name that the user wants to input
-	std::string fileName;
+	string fileName;
 	// File opener
-	std::ifstream inputFile;
+	ifstream inputFile;
 
 	ResizableArray<DrillingRecord>* tempArray;
 	int dataLines = 0;
 	int validEntries = 0;
 
 	// Initial file name input
-	std::cout << "Enter data file name:" << std::endl;
+	cout << "Enter data file name: ";
 
-	std::cin >> fileName;
+	getline(cin, fileName);
 
 	while (!(fileName.empty())) {
 
@@ -127,13 +91,11 @@ int main() {
 			// The drilling array
 			DrillingRecord* drillingRecord = new DrillingRecord();
 
-			DrillingRecordComparator* comparitor;
-
 			// Temperary string variable
-			std::string tempString;
+			string tempString;
 
 			// Time array
-			std::string date;
+			string date;
 
 			bool isValid = true;
 
@@ -145,10 +107,10 @@ int main() {
 			tempArray = new ResizableArray<DrillingRecord>();
 			
 			// Throws away first line
-			std::getline(inputFile, tempString);
+			getline(inputFile, garbage);
 
 			// Puts date in date variable
-			std::getline(inputFile, tempString, ',');
+			getline(inputFile, tempString, ',');
 			date = tempString;
 
 			// While not at end of file
@@ -158,48 +120,44 @@ int main() {
 
 				// Check if date is the same
 				if (tempString.compare(date) != 0) {
-					std::cout << "Non-matching date stamp " << tempString << " at line " << lineCount + 1 << "." << std::endl;
+					cout << "Non-matching date stamp " << tempString << " at line " << lineCount + 1 << "." << endl;
 					isValid = false;
 				}
 				if (isValid) {
 					drillingRecord->addString(tempString);
 				}
 
-				std::getline(inputFile, tempString, ',');
+				getline(inputFile, tempString, ',');
 				// If data is still valid
 				if (isValid) {
-
-					comparitor = new DrillingRecordComparator(1);
 
 					drillingRecord->addString(tempString);
 
 					// Itterate though time vector to check if time is equal to previous times
-					if (binarySearch(*drillingRecord, *tempArray, *comparitor) > 0) {
-						std::cout << "Duplicate timestamp " << tempString << " at line " << lineCount + 1 << "." << std::endl;
-						isValid = false;
-						break;
-					}
-
-					// adds new time to time array
-					if (isValid) {
+					for (unsigned long i = 0; i < tempArray->getSize(); i++) {
+						if (tempArray->get(i).getString(1).compare(tempString) == 0) {
+							cout << "Duplicate timestamp " << tempString << " at line " << lineCount + 1 << "." << endl;
+							isValid = false;
+							break;
+						}
 					}
 				}
 
 				// puts data in data array
 				// gets first 15 data points that are separated by commas
 				for (i = 0; i < 15; i++) {
-					std::getline(inputFile, tempString, ',');
+					getline(inputFile, tempString, ',');
 
-					drillingRecord->addNum(std::stof(tempString));
+					drillingRecord->addNum(stof(tempString));
 				}
 				// gets final data point with newline
-				std::getline(inputFile, tempString);
-				drillingRecord->addNum(std::stof(tempString));
+				getline(inputFile, tempString);
+				drillingRecord->addNum(stof(tempString));
 
 				// checks if data is valid
 				for (i = 0; i < 16; i++) {
 					if ((drillingRecord->getNum(i) <= 0) && isValid) {
-						std::cout << "Invalid floating-point data at line " << lineCount + 1 << "." << std::endl;
+						cout << "Invalid floating-point data at line " << lineCount + 1 << "." << endl;
 						isValid = false;
 						break;
 					}
@@ -217,8 +175,9 @@ int main() {
 				}
 
 				// Get next date parameter
-				std::getline(inputFile, tempString, ',');
+				getline(inputFile, tempString, ',');
 
+				lineCount++;
 				dataLines++;
 			}
 			// Close file
@@ -227,60 +186,65 @@ int main() {
 			// Merge files
 			mergeDrillingRecords(tempArray);
 
+			delete tempArray;
+
 		}
 		else {
 			// File does not exist
-			std::cout << "File is not available." << std::endl;
+			cout << "File is not available." << endl;
 		}
 
 		// Re-get file name
-		std::cout << "Enter data file name:" << std::endl;
+		cout << "Enter data file name: ";
 
-		inputFile >> fileName;
+		getline(cin, fileName);
 	}
 
 	// Output choice
 	char choice;
+	string temp;
 	// File out
-	std::ofstream outputFile;
+	ofstream outputFile;
 
-	std::cout << "Enter (o)utput, (s)ort, (f)ind, or (q)uit: " << std::endl;
+	cout << "Enter (o)utput, (s)ort, (f)ind, or (q)uit: " << endl;
 
-	std::cin >> choice;
+	cin >> choice;
+	getline(cin, temp);
+
 	while (choice != 'q') {
 		switch (choice) {
 		case 'o':
 			// Checks for file to output to
-			std::cout << "Enter output file name:" << std::endl;
-			std::cin >> fileName;
+			cout << "Enter output file name: ";
+			getline(cin, fileName);
 
 			// Output to chosen file
 			if (!(fileName.empty())) {
 				// open file
-				outputFile.open("fileName");
+				outputFile.open(fileName);
 
 				// Loops until valid file is entered
 				while (!(outputFile.is_open())) {
-					std::cout << "File is not available." << std::endl;
+					cout << "File is not available." << endl;
 
 					// Checks for file to output to
-					std::cout << "Enter output file name:" << std::endl;
-					std::cin >> fileName;
+					cout << "Enter output file name: ";
+					getline(inputFile, fileName);
 
 					// open file
-					outputFile.open("fileName");
+					outputFile.open(fileName);
 				}
 
 				try {
 					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
-						outputFile << drillingArray->get(i) << std::endl;
+						outputFile << drillingArray->get(i) << endl;
 					}
 
 					// Outputs internal tallies
-					std::cout << "Data lines read: " << dataLines
-						<< "; Valid drilling records: " << validEntries
+					outputFile << "Data lines read: " << dataLines
+						<< "; Valid drilling records read: " << validEntries
 						<< "; Drilling records in memory: " << drillingArray->getSize()
-						<< std::endl;
+						<< endl;
 
 					outputFile.close();
 				}
@@ -293,14 +257,14 @@ int main() {
 				// Prints data (loop)
 				try {
 					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
-						outputFile << drillingArray->get(i) << std::endl;
+						cout << drillingArray->get(i) << endl;
 					}
 
 					// Outputs internal tallies
-					std::cout << "Data lines read: " << dataLines
-						<< "; Valid drilling records: " << validEntries
+					cout << "Data lines read: " << dataLines
+						<< "; Valid drilling records read: " << validEntries
 						<< "; Drilling records in memory: " << drillingArray->getSize()
-						<< std::endl;
+						<< endl;
 				}
 				catch (ExceptionIndexOutOfRange e) {
 					// It broke :(
@@ -313,8 +277,10 @@ int main() {
 			int column;
 
 			// Get column to sort
-			std::cout << "Enter sort field (0-17):" << std::endl;
-			std::cin >> column;
+			cout << "Enter sort field (0-17):" << endl;
+			cin >> column;
+			getline(cin, garbage);
+
 
 			// Make sure to check if valid
 			if ((column < 0) && (column > 17)) {
@@ -338,8 +304,9 @@ int main() {
 			// column to search
 
 			// Get column to search
-			std::cout << "Enter search field (0-17):" << std::endl;
-			std::cin >> column;
+			cout << "Enter search field (0-17):" << endl;
+			cin >> column;
+			getline(cin, garbage);
 
 			// Make sure to check if valid
 			if ((column < 0) && (column > 17)) {
@@ -353,43 +320,45 @@ int main() {
 				if ((column >= 2) && (column <= 17)) {
 					// Get value to sort
 					double value;
-					std::cout << "Enter positive field value:" << std::endl;
-					std::cin >> value;
+					cout << "Enter positive field value: " << endl;
+					cin >> value;
+					getline(cin, garbage);
 
 					// Searches through the array to get count
 					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
 						if (value == drillingArray->get(i).getNum(column - 2)) {
+							cout << drillingArray->get(i) << endl;
 							count++;
 						}
 					}
 
-					std::cout << "Drilling records found: " << count << std::endl;
+					cout << "Drilling records found: " << count << endl;
 
 				}
 				else if ((column == 0) || (column == 1)) {
-					std::string value;
-					std::cout << "Enter exact text on which to search:" << std::endl;
-					std::cin >> value;
+					string value;
+					cout << "Enter exact text on which to search: " << endl;
+					getline(cin, value);
 
 					// Searches through the array to get count
 					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
 						if (value.compare(drillingArray->get(i).getString(column)) == 0) {
+							cout << drillingArray->get(i) << endl;
 							count++;
 						}
 					}
 
-					std::cout << "Drilling records found: " << count << std::endl;
+					cout << "Drilling records found: " << count << endl;
 				}
 			}
 
 			break;
-
-			// Both these should break out of output
-
-		case 'q':
-		default:
-			std::cout << "Thanks for using Driller." << std::endl;
-			break;
-			}
 		}
+
+		cout << "Enter (o)utput, (s)ort, (f)ind, or (q)uit: " << endl;
+		cin >> choice;
+		getline(cin, garbage);
+	}
+	cout << "Thanks for using Driller." << endl;
+	return 0;
 }

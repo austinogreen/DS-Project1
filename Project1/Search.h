@@ -17,11 +17,14 @@ long long binarySearch(const T& item, const ResizableArray<T>& array, const Comp
 	long long right = array.getSize() - 1;
 	long long middle;
 
+	long long compare;
+
 	// searches while left and right don't overlap
 	while (left <= right) {
 
-		middle = array.getSize() / 2;
-		long long compare = comparator.compare(item, array.get(middle));
+		middle = (right + left) / 2;
+
+		compare = comparator.compare(item, array.get(middle));
 
 		// item is less than the element so search in left half
 		if (compare < 0) {

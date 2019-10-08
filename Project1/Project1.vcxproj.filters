@@ -48,4 +48,38 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Desktop\Project 1 - I_O\incorrect_date_practice.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Desktop\Project 1 - I_O\invalid_values_practice.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Desktop\Project 1 - I_O\invalid_values_practice2.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Desktop\Project 1 - I_O\mixed_errors_practice.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Desktop\Project 1 - I_O\repeated_times_practice.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Desktop\Project 1 - I_O\valid_data_practice.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Desktop\Project 1 - I_O\valid_data_practice2.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Desktop\Project 1 - Sorting\random7.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\Desktop\Project 1 - Search\valid_data_practice.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Text.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
