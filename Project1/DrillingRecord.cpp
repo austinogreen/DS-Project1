@@ -22,7 +22,7 @@ DrillingRecord::DrillingRecord() {
 	strings[1] = "";
 
 	// Initiialzes nums to 0.0
-	for (int i = 0; i < MAX_NUMS; i++) {
+	for (unsigned int i = 0; i < MAX_NUMS; i++) {
 		nums[i] = 0.0;
 	}
 }
