@@ -148,11 +148,11 @@ int main() {
 				for (i = 0; i < 15; i++) {
 					getline(inputFile, tempString, ',');
 
-					drillingRecord->addNum(stof(tempString));
+					drillingRecord->addNum(stod(tempString));
 				}
 				// gets final data point with newline
 				getline(inputFile, tempString);
-				drillingRecord->addNum(stof(tempString));
+				drillingRecord->addNum(stod(tempString));
 
 				// checks if data is valid
 				for (i = 0; i < 16; i++) {
