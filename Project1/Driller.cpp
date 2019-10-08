@@ -70,7 +70,7 @@ void mergeDrillingRecords(ResizableArray<DrillingRecord>* newArray) {
 	else {
 		// Size of the array
 		long unsigned int size = drillingArray->getSize();
-		for (int i = 0; i < size; i++) {
+		for (long unsigned int i = 0; i < size; i++) {
 
 			bool isFound = false;
 			DrillingRecord dR = newArray->get(i);

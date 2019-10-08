@@ -19,10 +19,10 @@ public:
 template<typename T>
 void Sorter<T> :: sort(ResizableArray<T>& array, const Comparator<T>& comparator) {
 	T temp;
-	int size = array.getSize();
-	for (int i = 0; i < size; i++) {
+	long unsigned int size = array.getSize();
+	for (long unsigned int i = 0; i < size; i++) {
 
-		for (int j = i; j < size; j++) {
+		for (long unsigned int j = i; j < size; j++) {
 
 			// If the element in i is less than the element in j, switches the two
 			if ((comparator.compare(array[i],array[j])) < 0) {
