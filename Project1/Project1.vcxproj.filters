@@ -49,10 +49,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text.txt">
+    <Text Include="File2.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="Text1.txt">
+    <Text Include="File1.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

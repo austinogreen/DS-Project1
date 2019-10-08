@@ -138,8 +138,8 @@
     <ClInclude Include="Sorter.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text.txt" />
-    <Text Include="Text1.txt" />
+    <Text Include="File1.txt" />
+    <Text Include="File2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
