@@ -13,8 +13,8 @@ template <typename T>
 long long binarySearch(const T& item, const ResizableArray<T>& array, const Comparator<T>& comparator) {
 	
 	// Parameters of binary search
-	unsigned long left = 0;
-	unsigned long right = array.getSize() - 1;
+	long long left = 0;
+	long long right = (long long)(array.getSize() - 1);
 	long long middle;
 
 	int compare;
@@ -28,12 +28,12 @@ long long binarySearch(const T& item, const ResizableArray<T>& array, const Comp
 
 		// item is less than the element so search in left half
 		if (compare < 0) {
-			right = (unsigned long) (middle - 1);
+			right = middle - 1;
 		}
 
 		// item is greater than the element so search in right half
 		else if (compare > 0) {
-			left = (unsigned long)(middle + 1);
+			left = middle + 1;
 		}
 
 		// item found
