@@ -59,9 +59,9 @@ void mergeDrillingRecords(ResizableArray<DrillingRecord>* newArray) {
 	}
 
 	// Sorts older part of array
-	DrillingRecordComparator* comparitor = new DrillingRecordComparator(1);
+	DrillingRecordComparator* comparator = new DrillingRecordComparator(1);
 
-	Sorter<DrillingRecord>::sort(*drillingArray, *comparitor);
+	Sorter<DrillingRecord>::sort(*drillingArray, *comparator);
 }
 
 int main() {
@@ -75,6 +75,8 @@ int main() {
 	int dataLines = 0;
 	int validEntries = 0;
 
+	bool hasOpened = false;
+
 	// Initial file name input
 	cout << "Enter data file name: ";
 
@@ -87,6 +89,7 @@ int main() {
 		// Check if file exists
 		if (inputFile.is_open()) {
 			// If file exists
+			hasOpened = true;
 
 			// The drilling array
 			DrillingRecord* drillingRecord = new DrillingRecord();
@@ -200,165 +203,179 @@ int main() {
 		getline(cin, fileName);
 	}
 
-	// Output choice
-	char choice;
-	string temp;
-	// File out
-	ofstream outputFile;
+	// if there is a valid input
+	if (hasOpened) {
 
-	cout << "Enter (o)utput, (s)ort, (f)ind, or (q)uit: " << endl;
+		// Output choice
+		char choice;
+		string temp;
+		// File out
+		ofstream outputFile;
+		// Column the data is currently sorted by
+		int sortedColumn = 1;
 
-	cin >> choice;
-	getline(cin, temp);
+		// comparator
+		DrillingRecordComparator* comparator;
 
-	while (choice != 'q') {
-		switch (choice) {
-		case 'o':
-			// Checks for file to output to
-			cout << "Enter output file name: ";
-			getline(cin, fileName);
-
-			// Output to chosen file
-			if (!(fileName.empty())) {
-				// open file
-				outputFile.open(fileName);
-
-				// Loops until valid file is entered
-				while (!(outputFile.is_open())) {
-					cout << "File is not available." << endl;
-
-					// Checks for file to output to
-					cout << "Enter output file name: ";
-					getline(inputFile, fileName);
-
-					// open file
-					outputFile.open(fileName);
-				}
-
-				try {
-					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
-						outputFile << drillingArray->get(i) << endl;
-					}
-
-					// Outputs internal tallies
-					outputFile << "Data lines read: " << dataLines
-						<< "; Valid drilling records read: " << validEntries
-						<< "; Drilling records in memory: " << drillingArray->getSize()
-						<< endl;
-
-					outputFile.close();
-				}
-				catch (ExceptionIndexOutOfRange e) {
-					// It broke :(
-				}
-			}
-
-			else {
-				// Prints data (loop)
-				try {
-					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
-						cout << drillingArray->get(i) << endl;
-					}
-
-					// Outputs internal tallies
-					cout << "Data lines read: " << dataLines
-						<< "; Valid drilling records read: " << validEntries
-						<< "; Drilling records in memory: " << drillingArray->getSize()
-						<< endl;
-				}
-				catch (ExceptionIndexOutOfRange e) {
-					// It broke :(
-				}
-			}
-			break;
-		case 's':
-			// sort stuff
-			// column to sort
-			int column;
-
-			// Get column to sort
-			cout << "Enter sort field (0-17):" << endl;
-			cin >> column;
-			getline(cin, garbage);
-
-
-			// Make sure to check if valid
-			if ((column < 0) && (column > 17)) {
-
-				// invalid column
-				// returns to loop
-			}
-
-			// Sorts data
-			else {
-
-				DrillingRecordComparator* comparitor = new DrillingRecordComparator(column);
-
-				Sorter<DrillingRecord>::sort(*drillingArray, *comparitor);
-			}
-
-			break;
-
-		case 'f':
-			// find stuff
-			// column to search
-
-			// Get column to search
-			cout << "Enter search field (0-17):" << endl;
-			cin >> column;
-			getline(cin, garbage);
-
-			// Make sure to check if valid
-			if ((column < 0) && (column > 17)) {
-
-				// invalid column
-			}
-
-			// searches data
-			else {
-				int count = 0;
-				if ((column >= 2) && (column <= 17)) {
-					// Get value to sort
-					double value;
-					cout << "Enter positive field value: " << endl;
-					cin >> value;
-					getline(cin, garbage);
-
-					// Searches through the array to get count
-					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
-						if (value == drillingArray->get(i).getNum(column - 2)) {
-							cout << drillingArray->get(i) << endl;
-							count++;
-						}
-					}
-
-					cout << "Drilling records found: " << count << endl;
-
-				}
-				else if ((column == 0) || (column == 1)) {
-					string value;
-					cout << "Enter exact text on which to search: " << endl;
-					getline(cin, value);
-
-					// Searches through the array to get count
-					for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
-						if (value.compare(drillingArray->get(i).getString(column)) == 0) {
-							cout << drillingArray->get(i) << endl;
-							count++;
-						}
-					}
-
-					cout << "Drilling records found: " << count << endl;
-				}
-			}
-
-			break;
-		}
+		// Temp Drilling Record
+		DrillingRecord* tempDR = new DrillingRecord();
 
 		cout << "Enter (o)utput, (s)ort, (f)ind, or (q)uit: " << endl;
+
 		cin >> choice;
-		getline(cin, garbage);
+		getline(cin, temp);
+
+		while (choice != 'q') {
+			switch (choice) {
+			case 'o':
+				// Checks for file to output to
+				cout << "Enter output file name: ";
+				getline(cin, fileName);
+
+				// Output to chosen file
+				if (!(fileName.empty())) {
+					// open file
+					outputFile.open(fileName);
+
+					// Loops until valid file is entered
+					while (!(outputFile.is_open())) {
+						cout << "File is not available." << endl;
+
+						// Checks for file to output to
+						cout << "Enter output file name: ";
+						getline(inputFile, fileName);
+
+						// open file
+						outputFile.open(fileName);
+					}
+
+					try {
+						for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
+							outputFile << drillingArray->get(i) << endl;
+						}
+
+						// Outputs internal tallies
+						outputFile << "Data lines read: " << dataLines
+							<< "; Valid drilling records read: " << validEntries
+							<< "; Drilling records in memory: " << drillingArray->getSize()
+							<< endl;
+
+						outputFile.close();
+					}
+					catch (ExceptionIndexOutOfRange e) {
+						// It broke :(
+					}
+				}
+
+				else {
+					// Prints data (loop)
+					try {
+						for (long unsigned int i = 0; i < drillingArray->getSize(); i++) {
+							cout << drillingArray->get(i) << endl;
+						}
+
+						// Outputs internal tallies
+						cout << "Data lines read: " << dataLines
+							<< "; Valid drilling records read: " << validEntries
+							<< "; Drilling records in memory: " << drillingArray->getSize()
+							<< endl;
+					}
+					catch (ExceptionIndexOutOfRange e) {
+						// It broke :(
+					}
+				}
+				break;
+			case 's':
+				// sort stuff
+				// column to sort
+				int column;
+
+				// Get column to sort
+				cout << "Enter sort field (0-17):" << endl;
+				cin >> column;
+				getline(cin, garbage);
+
+				bool isSorted = (column == sortedColumn);
+
+
+				// Make sure to check if valid
+				if ((column < 0) && (column > 17)) {
+
+					// invalid column
+					// returns to loop
+				}
+
+				// Sorts data
+				else {
+
+					comparator = new DrillingRecordComparator(column);
+
+					Sorter<DrillingRecord>::sort(*drillingArray, *comparator);
+
+					sortedColumn = column;
+				}
+
+				break;
+
+			case 'f':
+				// find stuff
+				// column to search
+
+				// Get column to search
+				cout << "Enter search field (0-17):" << endl;
+				cin >> column;
+				getline(cin, garbage);
+
+				// Make sure to check if valid
+				if ((column < 0) && (column > 17)) {
+
+					// invalid column
+				}
+
+				// Column is the sorted column therefore can use binary search
+				else {
+					if ((column >= 2) && (column <= 17)) {
+						// Get value to sort
+						double value;
+						cout << "Enter positive field value: " << endl;
+						cin >> value;
+						getline(cin, garbage);
+						tempDR->setNum(value, column - 2);
+					}
+					else if ((column == 0) || (column == 1)) {
+						string value;
+						cout << "Enter exact text on which to search: " << endl;
+						getline(cin, value);
+						tempDR->setString(value, column);
+					}
+
+					comparator = new DrillingRecordComparator(column);
+
+					ResizableArray<long long> idxArray = search(*tempDR, *drillingArray, isSorted, *comparator);
+
+					unsigned long count = idxArray.getSize();
+
+					// idx is negative therefore element dne
+					if (idxArray.get(0) < 0) {
+						count = 0;
+					}
+					else {
+						for (long unsigned int i = 0; i < count; i++) {
+							cout << drillingArray->get(idxArray.get(i)) << endl;
+						}
+					}
+
+					cout << "Drilling records found: " << count << endl;
+				}
+
+				break;
+			}
+
+			cout << "Enter (o)utput, (s)ort, (f)ind, or (q)uit: " << endl;
+			cin >> choice;
+			getline(cin, garbage);
+		}
+		cout << "Thanks for using Driller." << endl;
+		return 0;
 	}
-	cout << "Thanks for using Driller." << endl;
-	return 0;
 }

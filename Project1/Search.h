@@ -38,11 +38,54 @@ long long binarySearch(const T& item, const ResizableArray<T>& array, const Comp
 
 		// item found
 		else {
+			// ensures that it is the first element that is found
+			while (comparator.compare(item, array.get(middle - 1)) {
+				middle--;
+			}
 			return middle;
 		}
 	}
 	// item not found, exit array
 	return -(middle + 1);
 }
+
+template <typename T>
+ResizableArray<long long> linearSearch(const T& item, const ResizableArray<T>& array, const Comparator<T>& comparator) {
+
+	ResizableArray<long long> idxArray = new ResizableArray<long long>();
+
+	for (long unsigned int i = 0; i < array->getSize(); i++) {
+		if (comparator.compare(array.get(i), item) == 0) {
+			idxArray.add(i);
+		}
+	}
+	return idxArray;
+}
+
+template <typename T>
+ResizableArray<long long> search(const T& item, const ResizableArray<T>& array, bool isSorted,  const Comparator<T>& comparator) {
+	
+	ResizableArray<long long> idxArray = new ResizableArray<long long>();
+	
+	if (isSorted) {
+		long long idx = binarySearch(item, array, comparator);
+
+		idxArray.add(idx);
+
+		// Searches indexes after the returned index to see if multiple items exist
+		while ((idx >= 0) && (comparator.compare(item, array.get(idx + 1))) {
+			idxArray.add(idx + 1);
+			idx++;
+		}
+
+		return idxArray;
+	}
+
+	else {
+		return linearSearch(item, array, comparator);
+	}
+}
+
+
 
 #endif
