@@ -295,9 +295,6 @@ int main() {
 				cin >> column;
 				getline(cin, garbage);
 
-				bool isSorted = (column == sortedColumn);
-
-
 				// Make sure to check if valid
 				if ((column < 0) && (column > 17)) {
 
@@ -318,13 +315,13 @@ int main() {
 				break;
 
 			case 'f':
-				// find stuff
-				// column to search
-
 				// Get column to search
 				cout << "Enter search field (0-17):" << endl;
 				cin >> column;
 				getline(cin, garbage);
+
+				// whether data is sorted by indicated column to choose which search to preform
+				bool isSorted = (column == sortedColumn);
 
 				// Make sure to check if valid
 				if ((column < 0) && (column > 17)) {
@@ -351,17 +348,17 @@ int main() {
 
 					comparator = new DrillingRecordComparator(column);
 
-					ResizableArray<long long> idxArray = search(*tempDR, *drillingArray, isSorted, *comparator);
+					ResizableArray<long long>* idxArray = search(*tempDR, *drillingArray, isSorted, *comparator);
 
-					unsigned long count = idxArray.getSize();
+					unsigned long count = idxArray->getSize();
 
 					// idx is negative therefore element dne
-					if (idxArray.get(0) < 0) {
+					if (idxArray->get(0) < 0) {
 						count = 0;
 					}
 					else {
-						for (long unsigned int i = 0; i < count; i++) {
-							cout << drillingArray->get(idxArray.get(i)) << endl;
+						for (unsigned long i = 0; i < count; i++) {
+							cout << drillingArray->get((unsigned long) idxArray->get(i)) << endl;
 						}
 					}
 

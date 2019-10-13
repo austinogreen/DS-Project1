@@ -13,33 +13,33 @@ template <typename T>
 long long binarySearch(const T& item, const ResizableArray<T>& array, const Comparator<T>& comparator) {
 	
 	// Parameters of binary search
-	long long left = 0;
-	long long right = array.getSize() - 1;
+	unsigned long left = 0;
+	unsigned long right = array.getSize() - 1;
 	long long middle;
 
-	long long compare;
+	int compare;
 
 	// searches while left and right don't overlap
 	while (left <= right) {
 
 		middle = (right + left) / 2;
 
-		compare = comparator.compare(item, array.get(middle));
+		compare = comparator.compare(item, array.get((unsigned long) middle));
 
 		// item is less than the element so search in left half
 		if (compare < 0) {
-			right = middle - 1;
+			right = (unsigned long) (middle - 1);
 		}
 
 		// item is greater than the element so search in right half
 		else if (compare > 0) {
-			left = middle + 1;
+			left = (unsigned long)(middle + 1);
 		}
 
 		// item found
 		else {
 			// ensures that it is the first element that is found
-			while (comparator.compare(item, array.get(middle - 1)) {
+			while (comparator.compare(item, array.get((unsigned long)(middle - 1))) < 0) {
 				middle--;
 			}
 			return middle;
@@ -50,31 +50,31 @@ long long binarySearch(const T& item, const ResizableArray<T>& array, const Comp
 }
 
 template <typename T>
-ResizableArray<long long> linearSearch(const T& item, const ResizableArray<T>& array, const Comparator<T>& comparator) {
+ResizableArray<long long>* linearSearch(const T& item, const ResizableArray<T>& array, const Comparator<T>& comparator) {
 
-	ResizableArray<long long> idxArray = new ResizableArray<long long>();
+	ResizableArray<long long>* idxArray = new ResizableArray<long long>();
 
-	for (long unsigned int i = 0; i < array->getSize(); i++) {
+	for (long unsigned int i = 0; i < array.getSize(); i++) {
 		if (comparator.compare(array.get(i), item) == 0) {
-			idxArray.add(i);
+			idxArray->add(i);
 		}
 	}
 	return idxArray;
 }
 
 template <typename T>
-ResizableArray<long long> search(const T& item, const ResizableArray<T>& array, bool isSorted,  const Comparator<T>& comparator) {
+ResizableArray<long long>* search(const T& item, const ResizableArray<T>& array, bool isSorted,  const Comparator<T>& comparator) {
 	
-	ResizableArray<long long> idxArray = new ResizableArray<long long>();
+	ResizableArray<long long>* idxArray = new ResizableArray<long long>();
 	
 	if (isSorted) {
 		long long idx = binarySearch(item, array, comparator);
 
-		idxArray.add(idx);
+		idxArray->add(idx);
 
 		// Searches indexes after the returned index to see if multiple items exist
-		while ((idx >= 0) && (comparator.compare(item, array.get(idx + 1))) {
-			idxArray.add(idx + 1);
+		while ((idx >= 0) && (comparator.compare(item, array.get((unsigned long)(idx + 1))))) {
+			idxArray->add(idx + 1);
 			idx++;
 		}
 
