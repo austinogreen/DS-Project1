@@ -353,7 +353,7 @@ int main() {
 					unsigned long count = idxArray->getSize();
 
 					// idx is negative therefore element dne
-					if (idxArray->get(0) < 0) {
+					if (isSorted && (idxArray->get(0) < 0)) {
 						count = 0;
 					}
 					else {

@@ -39,7 +39,7 @@ long long binarySearch(const T& item, const ResizableArray<T>& array, const Comp
 		// item found
 		else {
 			// ensures that it is the first element that is found
-			while (comparator.compare(item, array.get((unsigned long)(middle - 1))) < 0) {
+			while ((middle > 0) && (comparator.compare(item, array.get((unsigned long)(middle - 1))) == 0)) {
 				middle--;
 			}
 			return middle;
@@ -73,7 +73,7 @@ ResizableArray<long long>* search(const T& item, const ResizableArray<T>& array,
 		idxArray->add(idx);
 
 		// Searches indexes after the returned index to see if multiple items exist
-		while ((idx >= 0) && (idx < (long long)(array.getSize())) && ((comparator.compare(item, array.get((unsigned long)(idx + 1)))) == 0)) {
+		while ((idx >= 0) && (idx < (long long)(array.getSize() - 1)) && ((comparator.compare(item, array.get((unsigned long)(idx + 1)))) == 0)) {
 			idxArray->add(idx + 1);
 			idx++;
 		}
