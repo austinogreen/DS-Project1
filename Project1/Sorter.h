@@ -67,7 +67,7 @@ unsigned long Sorter<T> :: partition(ResizableArray<T>& array, unsigned long i, 
       }
       
       // Decrement right while pivot < array.get(right) 
-      while (comparator.compare(pivot, array.get(left)) < 0) {
+      while (comparator.compare(pivot, array.get(right)) < 0) {
          --right;
       }
 	  
