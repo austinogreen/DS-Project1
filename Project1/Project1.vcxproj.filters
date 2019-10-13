@@ -55,5 +55,8 @@
     <Text Include="File1.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="valid_data_practice.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
